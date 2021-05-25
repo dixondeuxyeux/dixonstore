@@ -1,6 +1,4 @@
 const express = require('express');
-// const compression = require('compression');
-const path = require('path');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
@@ -10,12 +8,6 @@ require('dotenv').config();
 
 // app
 const app = express();
-// app.use(compression());
-app.use(express.static(path.join(__dirname, 'build')));
-
-// app.get('*', function (req, res) {
-//   res.sendFile(path.join(__dirname, 'build', 'index.html'));
-// });
 
 // db
 mongoose
@@ -33,16 +25,9 @@ app.use(morgan('dev'));
 app.use(bodyParser.json({ limit: '4mb' }));
 app.use(cors());
 
-// if (process.env.NODE_ENV === 'production') {
-//   app.use(express.static(path.join(__dirname, '/client/build')));
-
-app.get('*', function (req, res) {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
-
 // routes middleware
 readdirSync('./routes').map((r) => app.use('/api', require('./routes/' + r)));
 
-const Port = process.env.PORT || 3000;
+const Port = process.env.PORT || 8000;
 
 app.listen(Port, () => console.log(`Server is running on port ${Port}`));
