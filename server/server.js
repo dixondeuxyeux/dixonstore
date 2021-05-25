@@ -43,6 +43,6 @@ app.get('*', function (req, res) {
 // routes middleware
 readdirSync('./routes').map((r) => app.use('/api', require('./routes/' + r)));
 
-const Port = process.env.PORT || 8000;
+const Port = process.env.PORT || 3000;
 
 app.listen(Port, () => console.log(`Server is running on port ${Port}`));
