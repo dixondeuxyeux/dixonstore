@@ -119,6 +119,7 @@ exports.applyCouponToUserCart = async (req, res) => {
 
 exports.createOrder = async (req, res) => {
   const { paymentIntent } = req.body.stripeResponse;
+
   const user = await User.findOne({ email: req.user.email }).exec();
 
   let { products } = await Cart.findOne({ orderBy: user._id }).exec();
@@ -140,7 +141,6 @@ exports.createOrder = async (req, res) => {
   });
 
   let updated = await Product.bulkWrite(bulkOption, {});
-  // console.log('PRODUCT QUANTITY-- AND SOLD++', updated);
 
   console.log('NEW ORDER SAVED', newOrder);
   res.json({ ok: true });
@@ -151,7 +151,7 @@ exports.orders = async (req, res) => {
 
   let userOrders = await Order.find({ orderBy: user._id })
     .populate('products.product')
-    .populate('orderBy', ' name email address')
+    .populate('orderBy', 'name email address')
     .exec();
 
   res.json(userOrders);
@@ -215,7 +215,7 @@ exports.createCashOrder = async (req, res) => {
       amount: finalAmount,
       currency: 'usd',
       status: 'Cash On Delivery',
-      created: Date.now(),
+      created: Date.now() / 1000,
       payment_method_types: ['cash'],
     },
     orderBy: user._id,

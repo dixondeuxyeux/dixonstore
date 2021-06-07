@@ -28,6 +28,6 @@ app.use(cors());
 // routes middleware
 readdirSync('./routes').map((r) => app.use('/api', require('./routes/' + r)));
 
-const Port = process.env.PORT || 8000;
+const port = process.env.PORT || 8000;
 
-app.listen(Port, () => console.log(`Server is running on port ${Port}`));
+app.listen(port, () => console.log(`Server is running on port ${port}`));
